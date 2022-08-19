@@ -1,7 +1,0 @@
-make --dry-run --keep-going --print-directory
-make: Entering directory '/home/paris/Codes/HackerRank'
- 
-make: *** No targets specified and no makefile found.  Stop.
-
-make: Leaving directory '/home/paris/Codes/HackerRank'
- 
