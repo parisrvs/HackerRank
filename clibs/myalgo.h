@@ -29,3 +29,6 @@ int binary_search(int*, int, int, int);
 
 // int* array, int size_of_array, int item_to_search
 int int_array_binary_search(int*, int, int);
+
+// char* string, char character_to_split_around, int* variable_to_store_the_size_of_the_string_array
+char** split_string(char*, char, int*);

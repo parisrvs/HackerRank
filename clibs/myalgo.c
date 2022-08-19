@@ -1,8 +1,10 @@
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 
 long long fibinacci(int number) {
-    long long int* arr = malloc(sizeof(long long int)*number);
+    long long int* arr = (long long int*) malloc(sizeof(long long int)*number);
     *(arr+0) = 0;
     *(arr+1) = 1;
 
@@ -26,11 +28,11 @@ long long gcd(long long a, long long b) {
 
 int* int_array_pop(int* arr, int* size, int index) {
     int c = 0, d = 0, l = *size;
-    int* arr_copy = malloc(sizeof(int)*(*size));
+    int* arr_copy = (int*) malloc(sizeof(int)*(*size));
 
     for (; c < (*size); c++) {
         if (index == c) {
-            arr_copy = realloc(arr_copy, sizeof(int)*((*size) - 1));
+            arr_copy = (int*) realloc(arr_copy, sizeof(int)*((*size) - 1));
             l--;
         } else {
             *(arr_copy+d) = *(arr+c);
@@ -46,7 +48,7 @@ int* int_array_pop(int* arr, int* size, int index) {
 
 int* int_array_append(int* arr, int* size, int item) {
     int l = *size;
-    arr = realloc(arr, sizeof(int)*(l+1));
+    arr = (int*) realloc(arr, sizeof(int)*(l+1));
     *(arr+l) = item;
     *size = l + 1;
     return arr;
@@ -55,11 +57,11 @@ int* int_array_append(int* arr, int* size, int item) {
 
 int* int_array_remove(int* arr, int* size, int item) {
     int c = 0, d = 0, l = *size;
-    int* arr_copy = malloc(sizeof(int)*(*size));
+    int* arr_copy = (int*) malloc(sizeof(int)*(*size));
 
     for (; c < (*size); c++) {
         if (item == *(arr+c)) {
-            arr_copy = realloc(arr_copy, sizeof(int)*((*size) - 1));
+            arr_copy = (int*) realloc(arr_copy, sizeof(int)*((*size) - 1));
             l--;
         } else {
             *(arr_copy+d) = *(arr+c);
@@ -133,4 +135,42 @@ int binary_search(int* array, int low, int high, int item) {
 // int_array_binary_search(int* array, int size_of_array, int item_to_search)
 int int_array_binary_search(int* array, int size, int item) {
     return binary_search(array, 0, size-1, item);
+}
+
+
+
+char** split_string(char* string, char c, int* size) {
+    int l = 2, l_string = strlen(string), count = 0;
+
+    char** strings = NULL;
+
+    for (int x = 0; x < l_string; x++)
+    {   
+        if (string[x] == c) {
+            while(string[x+1] && string[x+1] == c)
+                x++;
+            if (string[x+1] && x < l_string) {
+                count++;
+                strings = (char**) realloc(strings, sizeof(char*)*count);
+                strings[count-1] = NULL;
+                l = 2;
+            } else {
+                break;
+            }
+
+        } else {
+            if (!count) {
+                strings = (char**) malloc(sizeof(char*)*(count+1));
+                strings[count] = NULL;
+                count++;
+            }
+            strings[count-1] = (char*) realloc(strings[count-1], sizeof(char)*l);
+            strings[count-1][l-2] = string[x];
+            strings[count-1][l-1] = '\0';
+            l++;
+        }
+    }
+
+    *size = count;
+    return strings;
 }

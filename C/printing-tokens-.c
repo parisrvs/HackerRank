@@ -27,24 +27,6 @@ int main() {
 }
 
 
-// char** split_string(char* string, char c, int* size) {
-//     int found = 0, new = 1;
-//     for (int x = 0, l = strlen(string); x < l; x++) {
-//         if (string[x] == c) {
-//             while(string[x] && string[x] == c)
-//                 x++;
-            
-//             if (x < l) {
-
-//             }
-                
-            
-
-//         }
-            
-//     }
-// }
-
 char** split_string(char* string, char c, int* size) {
     int l = 2, l_string = strlen(string), count = 0;
 
