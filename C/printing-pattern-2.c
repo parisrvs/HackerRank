@@ -9,7 +9,7 @@ int main()
     int n;
     scanf("%d", &n);
 
-    int p = n, c, z = n;
+    int p = n, c, z;
     for (int x = 1; x <= (n*2-1); x++) {
 
         if (p == 1)
@@ -17,12 +17,18 @@ int main()
         else if (p == n)
             c = 1;
 
-        for (int y = 1; y <= (n*2-1); y++) {
-            if (y == 1 || y == (n*2-1))
-                printf("%i ", z);
-            else
-                printf("%i ", p);
-        }
+        z = (n*2-1) - (p*2-1);
+        z = z / 2;
+        int o = n;
+        
+            
+        for (int m = 0; m < z; m++)
+            printf("%i ", o--);
+        for (int m = 0; m < (p*2-1); m++)
+            printf("%i ", o);
+        for (int m = 0; m < z; m++)
+            printf("%i ", ++o);
+ 
 
         if (c)
             p--;
