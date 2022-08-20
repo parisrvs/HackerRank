@@ -21,7 +21,6 @@ int next_permutation(int n, char **s)
 }
 
 
-
 int largest_k(int size, char** strings) {
     int k = size - 1;
     while ((k > 0) && (strcmp(strings[k-1], strings[k]) >= 0))
@@ -49,22 +48,11 @@ void reverse(char** s, int n, int k) {
     if ((k + 1) == (n - 1))
         return;
     
-    k++;
-    int count = 0, l;
-    char** strings = (char**) malloc(sizeof(char*)*(n-k));
-    for (int c = k; c < n; c++) {
-        l = strlen(s[c]);
-        strings[count] = (char*) malloc(sizeof(char)*(l+1));
-        for (int x = 0; x <= l; x++)
-            strings[count][x] = s[c][x];
-        count++;
+    int end = n - 1;
+    for (int start = k + 1; start < end; start++) {
+        swap(s, start, end);
+        end--;
     }
-	
-    for (int x = k; x < n; x++) {
-        free(s[x]);
-        s[x] = strings[--count];
-    }
-    free(strings);
 }
 
 
@@ -89,3 +77,16 @@ int main()
 	free(s);
 	return 0;
 }
+
+
+/*
+8
+dvet
+lwi
+m
+pqdp
+r
+r
+wtc
+y
+*/
