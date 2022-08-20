@@ -2,38 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 
-int largest_k(int, char**);
-int largest_l(int, char**, int);
 void swap(char**, int, int);
 void reverse(char**, int, int);
 
-
 int next_permutation(int n, char **s)
 {
-    int k = largest_k(n, s);
-    if (k < 0)
-        return 0;
-    
-    int l = largest_l(n, s, k);
-    swap(s, k, l);
-    reverse(s, n, k);
-    return 1;
-}
-
-
-int largest_k(int size, char** strings) {
-    int k = size - 1;
-    while ((k > 0) && (strcmp(strings[k-1], strings[k]) >= 0))
-        k--;
-    return k-1;
-}
-
-
-int largest_l(int n, char** s, int k) {
-    int l = k + 1;
-    while ((l < n) && (strcmp(s[k], s[l]) <= 0))
-        l++;
-    return l - 1;
+    for (int x = n - 2; x >= 0; x--)
+        if (strcmp(s[x+1], s[x]) > 0)
+            for (int y = n - 1; y > x; y--)
+                if (strcmp(s[y], s[x]) > 0) {
+                    swap(s, x, y);
+                    reverse(s, n, x);
+                    return 1;
+                }
+    return 0;
 }
 
 
@@ -77,16 +59,3 @@ int main()
 	free(s);
 	return 0;
 }
-
-
-/*
-8
-dvet
-lwi
-m
-pqdp
-r
-r
-wtc
-y
-*/
