@@ -12,86 +12,68 @@
 char* readline();
 char* ltrim(char*);
 char* rtrim(char*);
+char** split_string(char*);
 
 int parse_int(char*);
 
 /*
- * Complete the 'gradingStudents' function below.
+ * Complete the 'kangaroo' function below.
  *
- * The function is expected to return an INTEGER_ARRAY.
- * The function accepts INTEGER_ARRAY grades as parameter.
+ * The function is expected to return a STRING.
+ * The function accepts following parameters:
+ *  1. INTEGER x1
+ *  2. INTEGER v1
+ *  3. INTEGER x2
+ *  4. INTEGER v2
  */
 
 /*
- * To return the integer array from the function, you should:
- *     - Store the size of the array to be returned in the result_count variable
- *     - Allocate the array statically or dynamically
+ * To return the string from the function, you should either do static allocation or dynamic allocation
  *
  * For example,
- * int* return_integer_array_using_static_allocation(int* result_count) {
- *     *result_count = 5;
+ * char* return_string_using_static_allocation() {
+ *     static char s[] = "static allocation of string";
  *
- *     static int a[5] = {1, 2, 3, 4, 5};
- *
- *     return a;
+ *     return s;
  * }
  *
- * int* return_integer_array_using_dynamic_allocation(int* result_count) {
- *     *result_count = 5;
+ * char* return_string_using_dynamic_allocation() {
+ *     char* s = malloc(100 * sizeof(char));
  *
- *     int *a = malloc(5 * sizeof(int));
+ *     s = "dynamic allocation of string";
  *
- *     for (int i = 0; i < 5; i++) {
- *         *(a + i) = i + 1;
- *     }
- *
- *     return a;
+ *     return s;
  * }
  *
  */
-int* gradingStudents(int grades_count, int* grades, int* result_count) {
-    int x, *arr = (int*) malloc(sizeof(int)*grades_count);
-    for (int c = 0; c < grades_count; c++) {
-        if (*(grades+c) < 38)
-            *(arr+c) = *(grades+c);
-        else {
-            x = (*(grades+c)) % 5;
-            if ((5 - x) < 3)
-                *(arr+c) = *(grades+c) + (5 - x);
-            else
-                *(arr+c) = *(grades+c);
-        }
+char* kangaroo(int x1, int v1, int x2, int v2) {
+    while (x1 != x2) {
+        x1 += v1;
+        x2 += v2;
+
+        if (x1 > x2)
+            return "NO";
     }
-    *result_count = grades_count;
-    return arr;
+    return "YES";
 }
 
 int main()
 {
     FILE* fptr = fopen(getenv("OUTPUT_PATH"), "w");
 
-    int grades_count = parse_int(ltrim(rtrim(readline())));
+    char** first_multiple_input = split_string(rtrim(readline()));
 
-    int* grades = malloc(grades_count * sizeof(int));
+    int x1 = parse_int(*(first_multiple_input + 0));
 
-    for (int i = 0; i < grades_count; i++) {
-        int grades_item = parse_int(ltrim(rtrim(readline())));
+    int v1 = parse_int(*(first_multiple_input + 1));
 
-        *(grades + i) = grades_item;
-    }
+    int x2 = parse_int(*(first_multiple_input + 2));
 
-    int result_count;
-    int* result = gradingStudents(grades_count, grades, &result_count);
+    int v2 = parse_int(*(first_multiple_input + 3));
 
-    for (int i = 0; i < result_count; i++) {
-        fprintf(fptr, "%d", *(result + i));
+    char* result = kangaroo(x1, v1, x2, v2);
 
-        if (i != result_count - 1) {
-            fprintf(fptr, "\n");
-        }
-    }
-
-    fprintf(fptr, "\n");
+    fprintf(fptr, "%s\n", result);
 
     fclose(fptr);
 
@@ -184,6 +166,27 @@ char* rtrim(char* str) {
     *(end + 1) = '\0';
 
     return str;
+}
+
+char** split_string(char* str) {
+    char** splits = NULL;
+    char* token = strtok(str, " ");
+
+    int spaces = 0;
+
+    while (token) {
+        splits = realloc(splits, sizeof(char*) * ++spaces);
+
+        if (!splits) {
+            return splits;
+        }
+
+        splits[spaces - 1] = token;
+
+        token = strtok(NULL, " ");
+    }
+
+    return splits;
 }
 
 int parse_int(char* str) {
