@@ -17,34 +17,22 @@ char** split_string(char*);
 int parse_int(char*);
 
 /*
- * Complete the 'getTotalX' function below.
+ * Complete the 'divisibleSumPairs' function below.
  *
  * The function is expected to return an INTEGER.
  * The function accepts following parameters:
- *  1. INTEGER_ARRAY a
- *  2. INTEGER_ARRAY b
+ *  1. INTEGER n
+ *  2. INTEGER k
+ *  3. INTEGER_ARRAY ar
  */
 
-int getTotalX(int a_count, int* a, int b_count, int* b) {
-    int start = a[a_count-1];
-    int end = b[0];
-    int c, d, count = 0;
-    while (start <= end) {
-        for (c = 0; c < a_count; c++)
-            if (start % (*(a+c)))
-                break;
-            else {
-                for (d = 0; d < b_count; d++)
-                    if ((*(b+d)) % start) {
-                        c = a_count;
-                        break;
-                    }
-            }
-        
-        if (c == a_count && d == b_count)
-            count++;
-        start++;
-    }
+int divisibleSumPairs(int n, int k, int ar_count, int* ar) {
+    int count = 0;
+    for (int x = 0; x < ar_count - 1; x++)
+        for (int y = x+1; y < ar_count; y++)
+            if (((ar[x] + ar[y]) % k) == 0)
+                count++;
+    
     return count;
 }
 
@@ -56,31 +44,21 @@ int main()
 
     int n = parse_int(*(first_multiple_input + 0));
 
-    int m = parse_int(*(first_multiple_input + 1));
+    int k = parse_int(*(first_multiple_input + 1));
 
-    char** arr_temp = split_string(rtrim(readline()));
+    char** ar_temp = split_string(rtrim(readline()));
 
-    int* arr = malloc(n * sizeof(int));
+    int* ar = malloc(n * sizeof(int));
 
     for (int i = 0; i < n; i++) {
-        int arr_item = parse_int(*(arr_temp + i));
+        int ar_item = parse_int(*(ar_temp + i));
 
-        *(arr + i) = arr_item;
+        *(ar + i) = ar_item;
     }
 
-    char** brr_temp = split_string(rtrim(readline()));
+    int result = divisibleSumPairs(n, k, n, ar);
 
-    int* brr = malloc(m * sizeof(int));
-
-    for (int i = 0; i < m; i++) {
-        int brr_item = parse_int(*(brr_temp + i));
-
-        *(brr + i) = brr_item;
-    }
-
-    int total = getTotalX(n, arr, m, brr);
-
-    fprintf(fptr, "%d\n", total);
+    fprintf(fptr, "%d\n", result);
 
     fclose(fptr);
 

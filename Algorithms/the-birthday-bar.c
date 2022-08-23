@@ -17,70 +17,55 @@ char** split_string(char*);
 int parse_int(char*);
 
 /*
- * Complete the 'getTotalX' function below.
+ * Complete the 'birthday' function below.
  *
  * The function is expected to return an INTEGER.
  * The function accepts following parameters:
- *  1. INTEGER_ARRAY a
- *  2. INTEGER_ARRAY b
+ *  1. INTEGER_ARRAY s
+ *  2. INTEGER d
+ *  3. INTEGER m
  */
 
-int getTotalX(int a_count, int* a, int b_count, int* b) {
-    int start = a[a_count-1];
-    int end = b[0];
-    int c, d, count = 0;
-    while (start <= end) {
-        for (c = 0; c < a_count; c++)
-            if (start % (*(a+c)))
-                break;
-            else {
-                for (d = 0; d < b_count; d++)
-                    if ((*(b+d)) % start) {
-                        c = a_count;
-                        break;
-                    }
-            }
-        
-        if (c == a_count && d == b_count)
-            count++;
-        start++;
+int birthday(int s_count, int* s, int d, int m) {
+    int z = 0;
+    for (int c = 0; c < s_count; c++) {
+        int counter = m, x = c, count = 0;
+        while(counter) {
+            count = count + (*(s+x));
+            counter--;
+            x++;
+        }
+        if (count == d)
+            z++;
     }
-    return count;
+    return z;
 }
 
 int main()
 {
     FILE* fptr = fopen(getenv("OUTPUT_PATH"), "w");
 
+    int n = parse_int(ltrim(rtrim(readline())));
+
+    char** s_temp = split_string(rtrim(readline()));
+
+    int* s = malloc(n * sizeof(int));
+
+    for (int i = 0; i < n; i++) {
+        int s_item = parse_int(*(s_temp + i));
+
+        *(s + i) = s_item;
+    }
+
     char** first_multiple_input = split_string(rtrim(readline()));
 
-    int n = parse_int(*(first_multiple_input + 0));
+    int d = parse_int(*(first_multiple_input + 0));
 
     int m = parse_int(*(first_multiple_input + 1));
 
-    char** arr_temp = split_string(rtrim(readline()));
+    int result = birthday(n, s, d, m);
 
-    int* arr = malloc(n * sizeof(int));
-
-    for (int i = 0; i < n; i++) {
-        int arr_item = parse_int(*(arr_temp + i));
-
-        *(arr + i) = arr_item;
-    }
-
-    char** brr_temp = split_string(rtrim(readline()));
-
-    int* brr = malloc(m * sizeof(int));
-
-    for (int i = 0; i < m; i++) {
-        int brr_item = parse_int(*(brr_temp + i));
-
-        *(brr + i) = brr_item;
-    }
-
-    int total = getTotalX(n, arr, m, brr);
-
-    fprintf(fptr, "%d\n", total);
+    fprintf(fptr, "%d\n", result);
 
     fclose(fptr);
 
