@@ -3,7 +3,7 @@
 
 long long fibinacci(int);
 long long gcd(long long, long long);
-
+int isLeapYear(int year);
 
 // int* array, int size_of_array
 void int_array_print(int*, int);

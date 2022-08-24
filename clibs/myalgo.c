@@ -174,3 +174,10 @@ char** split_string(char* string, char c, int* size) {
     *size = count;
     return strings;
 }
+
+
+int isLeapYear(int year) {
+    if ((year % 400 == 0) || ((year % 4 == 0) && (year % 100 != 0)))
+        return 1;
+    return 0;
+}
